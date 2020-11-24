@@ -10,3 +10,4 @@
 * Reference
   * [washington cs course slide](https://courses.cs.washington.edu/courses/cse326/09wi/lectures/11-b-trees.pdf)
 
+2020.11.24 12:21~
