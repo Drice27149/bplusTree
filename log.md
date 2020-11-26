@@ -11,3 +11,10 @@
   * [washington cs course slide](https://courses.cs.washington.edu/courses/cse326/09wi/lectures/11-b-trees.pdf)
 
 2020.11.24 12:21~
+
+2020.11.26 14:20~
+
+* Leaf node's children is record
+* Internal node's children is internal node or leaf node
+* The number of children: [ceil(M/2), M]
+* each leaf hold a set of pointer to records
