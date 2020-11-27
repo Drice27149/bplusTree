@@ -18,3 +18,7 @@
 * Internal node's children is internal node or leaf node
 * The number of children: [ceil(M/2), M]
 * each leaf hold a set of pointer to records
+
+2020.11.27 19:29~
+
+* Trying to figure out the relationship between key and node
