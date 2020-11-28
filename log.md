@@ -22,3 +22,8 @@
 2020.11.27 19:29~
 
 * Trying to figure out the relationship between key and node
+
+2020.11.28 14:54~
+
+* todo: finish insertion implementation [done]
+* todo: test insertion implementation

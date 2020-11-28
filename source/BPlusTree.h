@@ -11,11 +11,11 @@ struct Node {
 
 class BPlusTree{
 public:
-    Node* FindLeaf(int key, Node* current);
     void Insert(int key, Node* newNode);
-    void InsertRecordtoLeaf(int key, Node* record, Node* leaf);
-    void InsertNodetoInternal(Node* newNode, Node* current);
     
+private:
+    Node* FindLeaf(int key, Node* current);
+    void InsertChildToParent(Node* childNode, Node* parentNode);
     
 private:
     int M; // max number of children in a node
@@ -45,50 +45,51 @@ Node* BPlusTree::FindLeaf(int key, Node* current){
 void BPlusTree::Insert(int key, Node* newNode){
     Node* leaf = FindLeaf(key, root);
     if(leaf){
-       
+       InsertChildToParent(newNode, leaf);
+    }
+}
+
+void BPlusTree::InsertChildToParent(Node* childNode, Node* parentNode){
+    if(!parentNode->firstChild || childNode->key < parentNode->firstChild->key){
+        childNode->pre = nullptr;
+        childNode->next = parentNode->firstChild;
+        parentNode->firstChild->pre = childNode;
+        parentNode->firstChild = childNode;
     }
     else{
-        //error
-    }
-}
-
-void BPlusTree::InsertRecordtoLeaf(int key, Node* record,Node* leaf){
-     if(key < leaf->firstChild->key){
-         record->next = leaf->firstChild;
-         record->pre = nullptr;
-         leaf->firstChild = record;
-     }
-     else{
-         for(Node* child = leaf->firstChild; child; child = child->next){
-            if(!child->next || key < child->next->key){
-                record->pre = child;
-                record->next = child->next;
+        for(Node* currentChild = parentNode->firstChild; currentChild; currentChild = currentChild->next){
+            if(!currentChild->next || childNode->key < currentChild->next->key){
+                childNode->pre = currentChild;
+                childNode->next = currentChild->next;
+                currentChild->next = childNode;
                 break;
             }
-         }
-     }
-     record->parent = leaf;
-     leaf->size++;
-     if(leaf->size > M){
-         //split 
-        Node* lastLeft = leaf->firstChild;
-        int leftSize = (M+1)/2;
-        for(int i = 0; i < leftSize-1; i++) lastLeft = lastLeft->next;
-        Node* splitRightNode = new Node();
-        splitRightNode->key = lastLeft->next->key;
-        splitRightNode->firstChild = lastLeft->next;
-        splitRightNode->size = M+1-leftSize;
-        splitRightNode->isLeaf = true;
-        if(leaf->parent){
-            InsertNodetoInternal(splitRightNode, leaf->parent);
+        }
+    }
+    childNode->parent = parentNode;
+    parentNode->size++;
+    //todo: put the following code into split() fuction
+    if(parentNode->size == M+1){
+        Node* lastLeft = parentNode->firstChild;
+        for(int i = 0; i < (M+1)/2 - 1; i++){
+            lastLeft = lastLeft->next;
+        }
+        Node* splitNode = new Node();
+        splitNode->firstChild = lastLeft->next;
+        lastLeft->next->pre = nullptr;
+        lastLeft->next = nullptr;
+        parentNode->size = (M+1)/2;
+        splitNode->size = M+1 - (M+1)/2;
+        if(parentNode->parent){
+            InsertChildToParent(splitNode, parentNode->parent);
         }
         else{
-            //height of tree will increase by one
-            //create new root
+            Node* newRoot = new Node();
+            parentNode->parent = splitNode->parent = newRoot;
+            parentNode->next = splitNode;
+            splitNode->pre = parentNode;
+            newRoot->firstChild = parentNode;
+            newRoot->size = 1;
         }
-     }
-}
-
-void BPlusTree::InsertNodetoInternal(Node* newNode, Node* current){
-    
+    }
 }
