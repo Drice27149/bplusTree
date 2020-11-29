@@ -1,3 +1,6 @@
+#include<cstdio>
+#include<queue>
+
 struct Node {
     int key;
     Node* parent;
@@ -6,21 +9,28 @@ struct Node {
     Node* firstChild;
     int size; // number of children
     bool isLeaf;
-    Node(): key(-1), parent(nullptr), pre(nullptr), next(nullptr), firstChild(nullptr), size(0), isLeaf(false){} 
+    int id;
+    Node(): key(-1), parent(nullptr), pre(nullptr), next(nullptr), firstChild(nullptr), size(0), isLeaf(false){}
 };
 
 class BPlusTree{
 public:
-    void Insert(int key, Node* newNode);
+    BPlusTree(int m);
+    void Insert(int key);
     
 private:
     Node* FindLeaf(int key, Node* current);
     void InsertChildToParent(Node* childNode, Node* parentNode);
-    
+    Node* CreateNewNode();
+    void PrintTree();
+
 private:
     int M; // max number of children in a node
+    static int totalNode; // next new node's id, increase by one for each new node
     Node* root;
 };
+
+int BPlusTree::totalNode = 0;
 
 Node* BPlusTree::FindLeaf(int key, Node* current){
     if(current->isLeaf){ 
@@ -42,18 +52,30 @@ Node* BPlusTree::FindLeaf(int key, Node* current){
     }
 }
 
-void BPlusTree::Insert(int key, Node* newNode){
+BPlusTree::BPlusTree(int m){
+    root = CreateNewNode();
+    root->isLeaf = true;
+    M = m;
+}
+
+void BPlusTree::Insert(int key){
     Node* leaf = FindLeaf(key, root);
     if(leaf){
-       InsertChildToParent(newNode, leaf);
+        Node* newNode = CreateNewNode();
+        newNode->key = key;
+        InsertChildToParent(newNode, leaf);
     }
+    //debug
+    this->PrintTree();
 }
 
 void BPlusTree::InsertChildToParent(Node* childNode, Node* parentNode){
     if(!parentNode->firstChild || childNode->key < parentNode->firstChild->key){
         childNode->pre = nullptr;
         childNode->next = parentNode->firstChild;
-        parentNode->firstChild->pre = childNode;
+        if(parentNode->firstChild){
+            parentNode->firstChild->pre = childNode;
+        }
         parentNode->firstChild = childNode;
     }
     else{
@@ -74,8 +96,9 @@ void BPlusTree::InsertChildToParent(Node* childNode, Node* parentNode){
         for(int i = 0; i < (M+1)/2 - 1; i++){
             lastLeft = lastLeft->next;
         }
-        Node* splitNode = new Node();
+        Node* splitNode = CreateNewNode();
         splitNode->firstChild = lastLeft->next;
+        splitNode->isLeaf = parentNode->isLeaf;
         lastLeft->next->pre = nullptr;
         lastLeft->next = nullptr;
         parentNode->size = (M+1)/2;
@@ -84,12 +107,42 @@ void BPlusTree::InsertChildToParent(Node* childNode, Node* parentNode){
             InsertChildToParent(splitNode, parentNode->parent);
         }
         else{
-            Node* newRoot = new Node();
+            Node* newRoot = CreateNewNode();
             parentNode->parent = splitNode->parent = newRoot;
             parentNode->next = splitNode;
             splitNode->pre = parentNode;
             newRoot->firstChild = parentNode;
             newRoot->size = 1;
+            newRoot->isLeaf = false;
+            root = newRoot;
+        }
+    }
+}
+
+Node* BPlusTree::CreateNewNode(){
+    Node* newNode = new Node();
+    newNode->id = ++totalNode;
+    return newNode;
+}
+
+void BPlusTree::PrintTree(){
+    std::queue<Node*>queue;
+    queue.push(root);
+    while(queue.size()!=0){
+        Node* current = queue.front();
+        queue.pop();
+        //printf the current node
+        printf("id = %d, key = %d\nparent = ",current->id,current->key);
+        if(current->parent) printf("%d\n",current->parent->id);
+        else printf("nullptr\n");
+        printf("Size = %d:",current->size);
+        for(Node* child = current->firstChild; child; child = child->next){
+            printf(" %d",child->id);
+        }
+        printf("\n\n");
+        //push child node into queue
+        for(Node* child = current->firstChild; child; child = child->next){
+            queue.push(child);
         }
     }
 }

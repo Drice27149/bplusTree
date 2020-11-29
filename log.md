@@ -15,6 +15,7 @@
 2020.11.26 14:20~
 
 * Leaf node's children is record
+* 
 * Internal node's children is internal node or leaf node
 * The number of children: [ceil(M/2), M]
 * each leaf hold a set of pointer to records
@@ -27,3 +28,8 @@
 
 * todo: finish insertion implementation [done]
 * todo: test insertion implementation
+
+2020.11.29 19:00~
+
+* Bug: runtime error when doing insert
+* currently, key = value = key
