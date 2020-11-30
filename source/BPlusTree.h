@@ -1,6 +1,6 @@
 #include<cstdio>
 #include<queue>
-
+/*
 struct Node {
     int key;
     Node* parent;
@@ -17,12 +17,13 @@ class BPlusTree{
 public:
     BPlusTree(int m);
     void Insert(int key);
+    void PrintTree(); // mainly use to test and debug
     
 private:
     Node* FindLeaf(int key, Node* current);
     void InsertChildToParent(Node* childNode, Node* parentNode);
     Node* CreateNewNode();
-    void PrintTree();
+   
 
 private:
     int M; // max number of children in a node
@@ -65,8 +66,6 @@ void BPlusTree::Insert(int key){
         newNode->key = key;
         InsertChildToParent(newNode, leaf);
     }
-    //debug
-    this->PrintTree();
 }
 
 void BPlusTree::InsertChildToParent(Node* childNode, Node* parentNode){
@@ -98,6 +97,7 @@ void BPlusTree::InsertChildToParent(Node* childNode, Node* parentNode){
         }
         Node* splitNode = CreateNewNode();
         splitNode->firstChild = lastLeft->next;
+        splitNode->key = lastLeft->next->key;
         splitNode->isLeaf = parentNode->isLeaf;
         lastLeft->next->pre = nullptr;
         lastLeft->next = nullptr;
@@ -139,6 +139,10 @@ void BPlusTree::PrintTree(){
         for(Node* child = current->firstChild; child; child = child->next){
             printf(" %d",child->id);
         }
+        printf("\nKey Sequence: ");
+        for(Node* child = current->firstChild; child; child = child->next){
+            if(child!=current->firstChild) printf(" %d",child->key);
+        }
         printf("\n\n");
         //push child node into queue
         for(Node* child = current->firstChild; child; child = child->next){
@@ -146,3 +150,39 @@ void BPlusTree::PrintTree(){
         }
     }
 }
+**/
+struct Record{
+    int key;
+    int value;
+    Record(int key, int value):
+    key(key), value(value){}
+};
+
+struct Node {
+    int* key;
+    Node** children;
+    Record** records;
+    int size;
+    bool isLeaf;
+    
+    Node(int M, bool isLeaf){
+        this->isLeaf = isLeaf;
+        this->size = 0;
+        key = new int[M-1];
+        if(isLeaf){
+            records = new Record*[M];
+        }
+        else{
+            children = new Node*[M];
+        }
+    }
+    
+    ~Node(){
+        if(isLeaf){
+            delete[] records;
+        }
+        else{
+            delete[] children;
+        }
+    }
+};
