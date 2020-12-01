@@ -36,3 +36,10 @@
 
 2020.11.30 8:10~
 
+2020.12.1 9:09~
+
+* todo: improve and finish implementation of insert [done]
+* issue: no assertion or error detection
+* left most child node is unchanged, because every time split we propagate the right part
+* todo: test new implementation of insert
+
