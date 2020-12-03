@@ -43,3 +43,8 @@
 * left most child node is unchanged, because every time split we propagate the right part
 * todo: test new implementation of insert
 
+2020.12.3 10:02~
+
+* todo: figure out how makefile & compile work
+* difference between compile & link
+
