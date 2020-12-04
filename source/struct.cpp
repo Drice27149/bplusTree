@@ -5,6 +5,7 @@ Node::Node(int M, bool isLeaf){
     this->isLeaf = isLeaf;
     this->size = 0;
     this->parent = nullptr;
+    this->neighbor = nullptr;
     key = new int[M-1];
     if(isLeaf){
         records = new Record*[M];

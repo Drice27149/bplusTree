@@ -46,5 +46,43 @@
 2020.12.3 10:02~
 
 * todo: figure out how makefile & compile work
+
 * difference between compile & link
+
+  * preprocessing: replace #include, #if, #define with pure c++ code
+
+  * compilation: code without # into assemble, then into machine code
+
+    * symbols are referred by name
+
+    * symbols that not defined is ok, so you can compile each source code seperately, a undefined but ok symbol example is following:
+
+      ```c++
+      //a.hpp
+      class A{
+      public:
+          void NotImplementedFun();
+      }
+      ```
+
+      ```c++
+      //a.cpp
+      #include "a.hpp"
+      //empty
+      ```
+
+      ```c++
+      //main.cpp
+      #include "a.hpp"
+      
+      int main(){
+          A a;
+          a.NotImplementedFum();
+          return 0;
+      }
+      ```
+
+      this can compile, but will report error in link phase
+
+    * linking: replace all references to undefined symbols with correct address, and produce library or executable, missing/duplicate definition is reported here
 

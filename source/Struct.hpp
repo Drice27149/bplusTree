@@ -10,6 +10,7 @@ struct Node {
     Node** children;
     Record** records;
     Node* parent;
+    Node* neighbor;
     int size; // number of children 
     bool isLeaf;
     
