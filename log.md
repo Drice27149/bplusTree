@@ -86,3 +86,7 @@
 
     * linking: replace all references to undefined symbols with correct address, and produce library or executable, missing/duplicate definition is reported here
 
+#### 2020.12.5 9:00~
+
+* when merge or insert internal node, key is from parent 
+
