@@ -90,3 +90,7 @@
 
 * when merge or insert internal node, key is from parent 
 
+#### 2020.12.6 9:02~
+
+* helper function is useful
+

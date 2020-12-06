@@ -1,5 +1,5 @@
 #include <cstdio>
-#include "struct.hpp"
+#include "Struct.hpp"
 
 Node::Node(int M, bool isLeaf){
     this->isLeaf = isLeaf;
@@ -87,6 +87,17 @@ void Node::PushBackNode(int nkey, Node* node){
     children[size-1] = node;
 }
 
+
+void Node::ResetChildrenNeighbor(){
+    for(int i = 0; i < size; i++){
+        children[i]->pre = nullptr;
+        children[i]->next = nullptr;
+        if(i){
+            children[i]->pre = children[i-1];
+            children[i-1]->next = children[i];
+        }
+    }
+}
 
 void Node::PrintNode(){
     printf("SELF:\n");

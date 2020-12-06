@@ -1,5 +1,6 @@
 #include "BPlusTree.hpp"
 #include <cstdio>
+#include <cassert>
 
 BPlusTree::BPlusTree(int M){
     this->M = M;
@@ -102,14 +103,16 @@ void BPlusTree::InsertNode(int key, Node* child, Node* node){
             node->key[i-1] = node->key[i-2];
             node->children[i] = node->children[i-1];
         }
-        if(index != 0){
-            child->neighbor = node->children[index-1];
-        }
-        else{ 
-            child->neighbor = nullptr;
-        }
         node->key[index-1] = key;
         node->children[index] = child;
+        if(index){
+            child->pre = node->children[index-1];
+            node->children[index-1]->next = child;
+        }
+        if(index+1 < node->size){
+            child->next = node->children[index+1];
+            node->children[index+1]->pre = child;
+        }
     }
     else{ // overflow, split
         Node* tempNode[M+1];
@@ -140,8 +143,11 @@ void BPlusTree::InsertNode(int key, Node* child, Node* node){
             node->children[i] = tempNode[i];
             //reset parent & neighbor
             node->children[i]->parent = node;
-            if(i == node->size-1){
-                node->children[i]->next = nullptr;
+            node->children[i]->pre = nullptr;
+            node->children[i]->next = nullptr;
+            if(i){
+                node->children[i]->pre = node->children[i-1];
+                node->children[i-1]->next = node->children[i];
             }
         }
         //right part of the split node
@@ -156,8 +162,11 @@ void BPlusTree::InsertNode(int key, Node* child, Node* node){
             splitNode->children[i] = tempNode[offset];
             //reset parent & neighbor            
             splitNode->children[i]->parent = splitNode;
-            if(!i){
-                splitNode->children[i]->pre = nullptr;
+            splitNode->children[i]->pre = nullptr;
+            splitNode->children[i]->next = nullptr;
+            if(i){
+                splitNode->children[i]->pre = splitNode->children[i-1];
+                splitNode->children[i-1]->next = splitNode->children[i];
             }
         }
         int pushUpKey = tempKey[node->size-1];
@@ -172,6 +181,8 @@ void BPlusTree::InsertNode(int key, Node* child, Node* node){
             newRoot->children[1] = splitNode;
             node->parent = newRoot;
             splitNode->parent = newRoot;
+            node->next = splitNode;
+            splitNode->pre = node;
             root = newRoot;
         }
     }
@@ -193,31 +204,44 @@ void BPlusTree::DeleteRecord(int key, Node* node){
         }
     }
     if(index != -1){
-        int deleteKey = node->records[0]->key;// save for delete internal node from parent
         delete node->records[index];
         node->size--;
         for(int i = index; i < node->size; i++){
             node->records[i] = node->records[i+1];
         }
         if(node->size < (M+1)/2){ //underflow
-            Record* borrowRecord = nullptr;
-            if(node->neighbor){
-                borrowRecord = BorrowRecord(node->neighbor); 
+            if(node->pre && node->pre->size > (M+1)/2){
+                Record* record = node->pre->PopBackRecord();
+                node->PushFrontRecord(record);
+                UpdateKey(record->key, node->parent);
             }
-            if(borrowRecord){ // borrow record from neighbor 
-                node->size++;
-                for(int i = node->size-1; i > 0; i--){
-                    node->records[i] = node->records[i-1];
-                }
-                node->records[0] = borrowRecord;
-                //reset parent's key
-                if(node->parent){
-                    UpdateKey(borrowRecord->key, node->parent);
-                }
+            else if(node->next && node->next->size > (M+1)/2){
+                Record* record = node->next->PopFrontRecord();
+                node->PushBackRecord(record);
+                UpdateKey(record->key, node->parent);
             }
-            else if(node->neighbor){ // borrow failed, merge with neighbor
-                
-                
+            else{ // borrow failed, try to merge
+                if(node->pre || node->next){
+                    Node* mergeNode = nullptr;
+                    Node* deleteNode = nullptr;
+                    if(node->pre){
+                        Node* mergeNode = node->pre;
+                        Node* deleteNode = node;
+                    }
+                    else{
+                        Node* mergeNode = node;
+                        Node* deleteNode = node->next;
+                    }
+                    for(int i = 0; i < deleteNode->size; i++){
+                        mergeNode->PushBackRecord(deleteNode->records[i]);
+                    }
+                    mergeNode->next = deleteNode->next;
+                    if(mergeNode->next){
+                        mergeNode->next->pre = mergeNode;
+                    }
+                    delete deleteNode;
+                    DeleteNode(deleteNode, mergeNode->parent);
+                }
             }
         }
     }
@@ -233,10 +257,33 @@ Record* BPlusTree::BorrowRecord(Node* neighbor){
 
 void BPlusTree::UpdateKey(int newKey, Node* node){
     for(int i = 0; i < node->size-1; i++){
-        if(node->key[i] > newKey){
+        bool left = i==0 || newKey > node->key[i-1];
+        bool right = i==node->size-2 || newKey < node->key[i+1];
+        if(left && right){
             node->key[i] = newKey;
             break;
         }
+    }
+}
+
+void BPlusTree::DeleteNode(Node* deleteNode, Node* node){
+    int index = -1;
+    for(int i = 0; i < node->size; i++){
+        if(node->children[i] == deleteNode){
+            index = i;
+            break;
+        }
+    }
+    assert(index != -1 && index != 0);
+    node->size--;
+    for(int i = index; i < node->size; i++){
+        node->key[i-1] = node->key[i];
+        node->children[i] = node->children[i+1];
+    }
+    node->ResetChildrenNeighbor();
+    if(node->size < (M+1)/2){ // underflow
+        
+        
     }
 }
 

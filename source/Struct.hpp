@@ -29,5 +29,7 @@ struct Node {
     void PushFrontNode(int key, Node* node);
     void PushBackNode(int key, Node* node);
     
+    void ResetChildrenNeighbor();
+    
     void PrintNode();
 };
