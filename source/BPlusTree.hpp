@@ -11,9 +11,9 @@ public:
     void Delete(int key);
     void DeleteRecord(int key, Node* node);
     void UpdateKey(int newKey, Node* node);
-    Record* BorrowRecord(Node* neighbor);
-    void DeleteNode(int key, Node* node);
     void DeleteNode(Node* deleteNode, Node* node);
+    
+    int GetKeyByChildNode(Node* childNode, Node* node);
     
     void PrintTreeByBfs();
     

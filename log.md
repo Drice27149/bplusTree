@@ -86,11 +86,22 @@
 
     * linking: replace all references to undefined symbols with correct address, and produce library or executable, missing/duplicate definition is reported here
 
-#### 2020.12.5 9:00~
+2020.12.5 9:00~
 
 * when merge or insert internal node, key is from parent 
 
-#### 2020.12.6 9:02~
+2020.12.6 9:02~
 
 * helper function is useful
 
+2020.12.7 8:40~
+
+* 
+
+2020.12.8 9:20~
+
+* finishing delete operation
+* todo:
+  * generate custom cases to see its correctness
+  * code test
+* insert at index, so on...

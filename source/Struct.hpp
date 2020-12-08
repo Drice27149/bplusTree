@@ -24,8 +24,8 @@ struct Node {
     void PushBackRecord(Record* record);
     void PushFrontRecord(Record* record);
     
-    Node* PopFrontNode();
-    Node* PopBackNode();
+    Node* PopFrontNode(int& popKey);
+    Node* PopBackNode(int& popKey);
     void PushFrontNode(int key, Node* node);
     void PushBackNode(int key, Node* node);
     

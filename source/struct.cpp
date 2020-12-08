@@ -52,7 +52,8 @@ void Node::PushFrontRecord(Record* record){
     records[0] = record;
 }
     
-Node* Node::PopFrontNode(){
+Node* Node::PopFrontNode(int& popKey){
+    popKey = key[0];
     Node* node = children[0];
     size--;
     for(int i = 0; i < size; i++){
@@ -61,11 +62,18 @@ Node* Node::PopFrontNode(){
         }
         children[i] = children[i+1];
     }
+    if(size){
+        children[0]->pre = nullptr;
+    }
     return node;
 }
 
-Node* Node::PopBackNode(){
+Node* Node::PopBackNode(int& popKey){
+    popKey = key[size-2];
     size--;
+    if(size){
+        children[size-1]->next = nullptr;
+    }
     return children[size];
 }
 
@@ -79,14 +87,27 @@ void Node::PushFrontNode(int nkey, Node* node){
     }
     children[0] = node;
     key[0] = nkey;
+    children[0]->pre = nullptr;
+    if(size >= 2){
+        children[0]->next = children[1];
+    }
+    else{
+        children[0]->next = nullptr;
+    }
 }
 
 void Node::PushBackNode(int nkey, Node* node){
     size++;
     key[size-2] = nkey;
     children[size-1] = node;
+    children[size-1]->next = nullptr;
+    if(size >= 2){
+        children[size-1]->pre = children[size-2];
+    }
+    else{
+        children[size-1]->pre = nullptr;
+    }
 }
-
 
 void Node::ResetChildrenNeighbor(){
     for(int i = 0; i < size; i++){
@@ -112,7 +133,8 @@ void Node::PrintNode(){
             if(i!=0) printf("%d ",key[i-1]);
         }
     }
-    printf("\nPARENT:\n");
+    printf("\n");
+    printf("PARENT:\n");
     if(parent){
         for(int i = 0; i < parent->size-1; i++){
             printf("%d ",parent->key[i]);
