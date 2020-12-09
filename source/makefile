@@ -9,3 +9,6 @@ BPlustree.o: BPlustree.cpp BPlustree.hpp
 	
 Struct.o: Struct.cpp Struct.hpp
 	g++ -c Struct.cpp
+
+clean: 
+	rm -f *.o *.exe

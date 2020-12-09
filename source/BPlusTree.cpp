@@ -33,6 +33,20 @@ void BPlusTree::Insert(int key, Record* value){
     InsertRecord(key, value, leaf);
 }
 
+Record* BPlusTree::FindRecord(int key){
+    Node* leaf = FindLeaf(key, root);
+    Record* result = nullptr;
+    if(leaf){
+        for(int i = 0; i < leaf->size; i++){
+            if(key == leaf->records[i]->key){
+                result = leaf->records[i];
+                break;
+            }
+        }
+    }
+    return result;
+}
+
 void BPlusTree::InsertRecord(int key, Record* record, Node* parent){
     int index = parent->size;
     for(int i = 0; i < parent->size; i++){
@@ -100,20 +114,13 @@ void BPlusTree::InsertNode(int key, Node* child, Node* node){
     }
     if(node->size != M){
         node->size++;
-        for(int i = node->size; i > index; i--){
+        for(int i = node->size-1; i > index; i--){
             node->key[i-1] = node->key[i-2];
             node->children[i] = node->children[i-1];
         }
         node->key[index-1] = key;
         node->children[index] = child;
-        if(index){
-            child->pre = node->children[index-1];
-            node->children[index-1]->next = child;
-        }
-        if(index+1 < node->size){
-            child->next = node->children[index+1];
-            node->children[index+1]->pre = child;
-        }
+        node->ResetChildrenNeighbor();
     }
     else{ // overflow, split
         Node* tempNode[M+1];
@@ -218,12 +225,12 @@ void BPlusTree::DeleteRecord(int key, Node* node){
                     Node* mergeNode = nullptr;
                     Node* deleteNode = nullptr;
                     if(node->pre){
-                        Node* mergeNode = node->pre;
-                        Node* deleteNode = node;
+                        mergeNode = node->pre;
+                        deleteNode = node;
                     }
                     else{
-                        Node* mergeNode = node;
-                        Node* deleteNode = node->next;
+                        mergeNode = node;
+                        deleteNode = node->next;
                     }
                     for(int i = 0; i < deleteNode->size; i++){
                         mergeNode->PushBackRecord(deleteNode->records[i]);

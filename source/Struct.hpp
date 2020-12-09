@@ -3,6 +3,7 @@ struct Record{
     int value;
     Record(int key, int value):
     key(key), value(value){}
+    ~Record(){}
 };
 
 struct Node {
@@ -32,4 +33,5 @@ struct Node {
     void ResetChildrenNeighbor();
     
     void PrintNode();
+    void SimplePrint();
 };

@@ -105,3 +105,7 @@
   * generate custom cases to see its correctness
   * code test
 * insert at index, so on...
+
+2020.12.9 8:40~
+
+* Fix RE bug about insertion

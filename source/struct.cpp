@@ -123,24 +123,35 @@ void Node::ResetChildrenNeighbor(){
 void Node::PrintNode(){
     printf("SELF:\n");
     printf("size = %d\n",size);
+    SimplePrint();
+    printf("PARENT:\n");
+    if(parent){
+        parent->SimplePrint();
+    }
+    else printf("NULL\n");
+    printf("PRE: \n");
+    if(pre){
+        pre->SimplePrint();
+    }
+    else printf("NULL\n");
+    printf("NEXT: \n");
+    if(next){
+        next->SimplePrint();
+    }
+    else printf("NULL\n");
+    printf("\n");
+}
+
+void Node::SimplePrint(){
     if(isLeaf){
         for(int i = 0; i < size; i++){
             printf("%d ",records[i]->key);
         }
     }
     else{
-        for(int i = 0; i < size; i++){
-            if(i!=0) printf("%d ",key[i-1]);
+        for(int i = 0; i < size-1; i++){
+            printf("%d ",key[i]);
         }
     }
-    printf("\n");
-    printf("PARENT:\n");
-    if(parent){
-        for(int i = 0; i < parent->size-1; i++){
-            printf("%d ",parent->key[i]);
-        }
-        printf("\n");
-    }
-    else printf("NULL\n");
     printf("\n");
 }
