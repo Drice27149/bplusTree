@@ -109,3 +109,13 @@
 2020.12.9 8:40~
 
 * Fix RE bug about insertion
+
+2020.12.13 11：49~
+
+* todo: priority high to low
+
+  *  abstract implementation to single operation
+  *  custom test 
+
+  *  unit test each single operation
+  *  replace bad implementation
