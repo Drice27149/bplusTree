@@ -119,3 +119,7 @@
 
   *  unit test each single operation
   *  replace bad implementation
+
+2020.12.14 8:11~
+
+* 

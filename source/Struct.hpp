@@ -8,6 +8,8 @@ struct Record{
 
 struct Node {
     int* key;
+    int Key;
+    int M;
     Node** children;
     Record** records;
     Node* parent;
@@ -31,6 +33,9 @@ struct Node {
     void PushBackNode(int key, Node* node);
     
     void ResetChildrenNeighbor();
+    
+    // split leaf and return new leaf, size of self will be updated
+    Node* SplitLeaf();
     
     void PrintNode();
     void SimplePrint();

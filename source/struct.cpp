@@ -1,19 +1,23 @@
 #include <cstdio>
+#include <cassert>
 #include "Struct.hpp"
 
 Node::Node(int M, bool isLeaf){
+    this->Key = -1;
     this->isLeaf = isLeaf;
     this->size = 0;
     this->parent = nullptr;
     this->neighbor = nullptr;
     this->pre = nullptr;
     this->next = nullptr;
-    key = new int[M-1];
+    this->M = M;
+    
+    key = new int[M];
     if(isLeaf){
-        records = new Record*[M];
+        records = new Record*[M+1];
     }
     else{
-        children = new Node*[M];
+        children = new Node*[M+1];
     }
 }
 
@@ -118,6 +122,17 @@ void Node::ResetChildrenNeighbor(){
             children[i-1]->next = children[i];
         }
     }
+}
+
+Node* Node::SplitLeaf(){
+    assert(size == M+1);
+    
+    Node* newLeaf = new Node(M, true);
+    size = (M+1)/2;
+    for(int i = size; i < M+1; i++){
+        newLeaf->PushBackRecord(records[i]);
+    }
+    return newLeaf;
 }
 
 void Node::PrintNode(){

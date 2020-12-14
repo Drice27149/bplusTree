@@ -7,6 +7,7 @@ public:
     Record* FindRecord(int key);
     
     void Insert(int key, Record* value);
+    // children's parent pointers are set up when inserting into parent
     void InsertRecord(int key, Record* record, Node* parent);
     void InsertNode(int key, Node* child, Node* parent);
     

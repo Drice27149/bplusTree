@@ -47,57 +47,35 @@ Record* BPlusTree::FindRecord(int key){
     return result;
 }
 
-void BPlusTree::InsertRecord(int key, Record* record, Node* parent){
-    int index = parent->size;
-    for(int i = 0; i < parent->size; i++){
-        if(key < parent->records[i]->key){
+void BPlusTree::InsertRecord(int key, Record* record, Node* node){
+    int index = node->size;
+    for(int i = 0; i < node->size; i++){
+        if(key < node->records[i]->key){
             index = i;
             break;
         }
     }
-    if(parent->size != M){
-        parent->size++;
-        for(int i = parent->size-1; i > index; i--){
-            parent->records[i] = parent->records[i-1];
-        }
-        parent->records[index] = record;
+    node->size++;
+    for(int i = node->size-1; i > index; i--){
+        node->records[i] = node->records[i-1];
     }
-    else{
-        //overflow, split
-        Record* tempRecord[M+1];
-        int ptr = 0;
-        for(int i = 0; i < parent->size; i++){
-            if(i==index){
-                tempRecord[ptr++] = record;
-            }
-            tempRecord[ptr++] = parent->records[i];
-        }
-        if(index==parent->size) tempRecord[ptr++] = record;
-        //left part of the split node
-        parent->size = (M+1)/2;
-        for(int i = 0; i < parent->size; i++){
-            parent->records[i] = tempRecord[i];
-        }
-        //right part of the split node
-        Node* splitLeaf = new Node(M, true);
-        splitLeaf->size = (M+1) - parent->size;
-        splitLeaf->parent = parent->parent;
-        for(int i = 0; i < splitLeaf->size; i++){
-            int offset = i+parent->size;
-            splitLeaf->records[i] = tempRecord[offset];
-        }
+    node->records[index] = record;
+    if(node->size == M+1){
+        // overflow, split
+        Node* splitLeaf = node->SplitLeaf();
+        // propagate new key up
         int pushUpKey = splitLeaf->records[0]->key;
-        if(parent->parent){ //propagate keys up
-            InsertNode(pushUpKey, splitLeaf, parent->parent);
+        if(node->parent){ 
+            InsertNode(pushUpKey, splitLeaf, node->parent);
         }
         else{ //root overflowed, new root needed
             Node* newRoot = new Node(M, false);
             newRoot->size = 2;
             newRoot->key[0] = pushUpKey;
-            newRoot->children[0] = parent;
+            newRoot->children[0] = node;
             newRoot->children[1] = splitLeaf;
             newRoot->ResetChildrenNeighbor();
-            parent->parent = newRoot;
+            node->parent = newRoot;
             splitLeaf->parent = newRoot;
             root = newRoot;
         }
@@ -105,6 +83,7 @@ void BPlusTree::InsertRecord(int key, Record* record, Node* parent){
 }
 
 void BPlusTree::InsertNode(int key, Node* child, Node* node){
+    child->parent = node;
     int index = node->size;
     for(int i = 1; i < node->size; i++){
         if(key < node->key[i-1]){
