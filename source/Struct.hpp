@@ -34,8 +34,12 @@ struct Node {
     
     void ResetChildrenNeighbor();
     
-    // split leaf and return new leaf, size of self will be updated
+    // split leaf and return the new leaf, size of self will be updated
     Node* SplitLeaf();
+    // split node and return the new node, size of self will be updated
+    Node* SplitNode();
+    // get push up key from full node
+    int GetPushUpKey();
     
     void PrintNode();
     void SimplePrint();

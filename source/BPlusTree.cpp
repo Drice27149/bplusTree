@@ -60,11 +60,13 @@ void BPlusTree::InsertRecord(int key, Record* record, Node* node){
         node->records[i] = node->records[i-1];
     }
     node->records[index] = record;
+
     if(node->size == M+1){
         // overflow, split
+        int pushUpKey = node->GetPushUpKey();
         Node* splitLeaf = node->SplitLeaf();
         // propagate new key up
-        int pushUpKey = splitLeaf->records[0]->key;
+        // int pushUpKey = splitLeaf->records[0]->key;
         if(node->parent){ 
             InsertNode(pushUpKey, splitLeaf, node->parent);
         }
@@ -91,69 +93,26 @@ void BPlusTree::InsertNode(int key, Node* child, Node* node){
             break;
         }
     }
-    if(node->size != M){
-        node->size++;
-        for(int i = node->size-1; i > index; i--){
-            node->key[i-1] = node->key[i-2];
-            node->children[i] = node->children[i-1];
-        }
-        node->key[index-1] = key;
-        node->children[index] = child;
-        node->ResetChildrenNeighbor();
+    node->size++;
+    for(int i = node->size-1; i > index; i--){
+        node->key[i-1] = node->key[i-2];
+        node->children[i] = node->children[i-1];
     }
-    else{ // overflow, split
-        Node* tempNode[M+1];
-        int tempKey[M];
-        int ptr = 0;
-        for(int i = 0; i < node->size; i++){
-            if(i==index){
-                tempKey[ptr-1] = key;
-                tempNode[ptr] = child;
-                ptr++;
-            }
-            if(i!=0){
-                tempKey[ptr-1] = node->key[i-1];
-            }
-            tempNode[ptr] = node->children[i];
-            ptr++;
-        }
-        if(index==node->size){
-            tempKey[ptr-1] = key;
-            tempNode[ptr] = child;
-        }
-        
-        //lelf part of the split node
-        node->size = (M+1)/2;
-        for(int i = 0; i < node->size; i++){
-            if(i!=0){
-                node->key[i-1] = tempKey[i-1];
-            }
-            node->children[i] = tempNode[i];
-            //reset parent
-            node->children[i]->parent = node;
-        }
-        node->ResetChildrenNeighbor();
-        
-        //right part of the split node
-        Node* splitNode = new Node(M, node->isLeaf);
-        splitNode->size = (M+1) - node->size;
-        splitNode->parent = node->parent;
-        for(int i = 0; i < splitNode->size; i++){
-            int offset = i+node->size;
-            if(i!=0){
-                splitNode->key[i-1] = tempKey[offset-1];
-            }
-            splitNode->children[i] = tempNode[offset];
-            //reset parent            
-            splitNode->children[i]->parent = splitNode;
-        }
-        splitNode->ResetChildrenNeighbor();
-        
-        int pushUpKey = tempKey[node->size-1];
-        if(node->parent){ // propagate keys up
+    node->key[index-1] = key;
+    node->children[index] = child;
+    node->ResetChildrenNeighbor();
+    
+    if(node->size == M+1){
+        // overflow, split
+        int pushUpKey = node->GetPushUpKey();
+        Node* splitNode = node->SplitNode();
+
+        if(node->parent){ 
+            // propagate keys up
             InsertNode(pushUpKey, splitNode, node->parent);
         }
-        else{ // root overflowed, new root needed
+        else{ 
+            // root overflowed, new root needed
             Node* newRoot = new Node(M, false);
             newRoot->size = 2;
             newRoot->key[0] = pushUpKey;

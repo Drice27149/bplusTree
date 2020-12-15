@@ -751,13 +751,13 @@ PARENT:
 PRE: 
 NULL
 NEXT: 
-NULL
+18 30 
 
 SELF:
 size = 2
 18 30 
 PARENT:
-40 
+18 
 PRE: 
 3 12 14 
 NEXT: 
@@ -822,13 +822,13 @@ PARENT:
 PRE: 
 NULL
 NEXT: 
-NULL
+18 30 
 
 SELF:
 size = 2
 18 30 
 PARENT:
-40 
+18 
 PRE: 
 3 12 
 NEXT: 
@@ -873,23 +873,23 @@ PARENT:
 PRE: 
 NULL
 NEXT: 
-NULL
+36 38 
 
 SELF:
 size = 2
 36 38 
 PARENT:
-40 
+32 40 
 PRE: 
 3 12 30 
 NEXT: 
-NULL
+40 45 
 
 SELF:
 size = 2
 40 45 
 PARENT:
-40 
+32 40 
 PRE: 
 36 38 
 NEXT: 

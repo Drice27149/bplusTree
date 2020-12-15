@@ -81,7 +81,7 @@ Node* Node::PopBackNode(int& popKey){
     return children[size];
 }
 
-void Node::PushFrontNode(int nkey, Node* node){
+void Node::PushFrontNode(int nkey, Node* node){    
     size++;
     for(int i = size-1; i > 0; i--){
         if(i>=2){
@@ -92,8 +92,12 @@ void Node::PushFrontNode(int nkey, Node* node){
     children[0] = node;
     key[0] = nkey;
     children[0]->pre = nullptr;
+    // reset parent
+    node->parent = this;
+    // reset neighbor
     if(size >= 2){
         children[0]->next = children[1];
+        children[1]->pre = children[0];
     }
     else{
         children[0]->next = nullptr;
@@ -102,10 +106,17 @@ void Node::PushFrontNode(int nkey, Node* node){
 
 void Node::PushBackNode(int nkey, Node* node){
     size++;
-    key[size-2] = nkey;
+    if(size != 1){
+        // insert key if this is not the first child of the node
+        key[size-2] = nkey;
+    }
     children[size-1] = node;
     children[size-1]->next = nullptr;
+    // reset parent
+    node->parent = this;
+    // reset neighbor
     if(size >= 2){
+        children[size-2]->next = node;
         children[size-1]->pre = children[size-2];
     }
     else{
@@ -124,6 +135,17 @@ void Node::ResetChildrenNeighbor(){
     }
 }
 
+int Node::GetPushUpKey(){
+    assert(size == M+1);
+    
+    if(isLeaf){
+        return records[(M+1)/2]->key;
+    }
+    else{
+        return key[(M+1)/2-1];
+    }
+}
+
 Node* Node::SplitLeaf(){
     assert(size == M+1);
     
@@ -133,6 +155,20 @@ Node* Node::SplitLeaf(){
         newLeaf->PushBackRecord(records[i]);
     }
     return newLeaf;
+}
+
+Node* Node::SplitNode(){
+    assert(size == M+1);
+    
+    Node* newNode = new Node(M, isLeaf);
+    size = (M+1)/2;
+    // reset neighbor
+    children[size-1]->next = nullptr;
+    children[size]->pre = nullptr;
+    for(int i = size; i < M+1; i++){
+        newNode->PushBackNode(key[i-1], children[i]);
+    }
+    return newNode;
 }
 
 void Node::PrintNode(){
