@@ -3,7 +3,7 @@
 #include "Struct.hpp"
 
 Node::Node(int M, bool isLeaf){
-    this->Key = -1;
+    this->KEY = -1;
     this->isLeaf = isLeaf;
     this->size = 0;
     this->parent = nullptr;
@@ -81,7 +81,11 @@ Node* Node::PopBackNode(int& popKey){
     return children[size];
 }
 
-void Node::PushFrontNode(int nkey, Node* node){    
+void Node::PushFrontNode(int nkey, Node* node){ 
+    // add
+    if(size!=0){
+        children[0]->KEY = nkey;
+    }    
     size++;
     for(int i = size-1; i > 0; i--){
         if(i>=2){
@@ -105,11 +109,14 @@ void Node::PushFrontNode(int nkey, Node* node){
 }
 
 void Node::PushBackNode(int nkey, Node* node){
-    size++;
-    if(size != 1){
+    if(size != 0){
         // insert key if this is not the first child of the node
-        key[size-2] = nkey;
+        key[size-1] = nkey;
     }
+    // add
+    node->KEY = nkey;
+    
+    size++;
     children[size-1] = node;
     children[size-1]->next = nullptr;
     // reset parent

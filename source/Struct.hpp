@@ -8,7 +8,7 @@ struct Record{
 
 struct Node {
     int* key;
-    int Key;
+    int KEY;
     int M;
     Node** children;
     Record** records;
