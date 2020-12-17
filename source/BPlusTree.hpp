@@ -13,11 +13,8 @@ public:
     
     void Delete(int key);
     void DeleteRecord(int key, Node* node);
-    void UpdateKey(int newKey, Node* node);
     void DeleteNode(Node* deleteNode, Node* node);
-    
-    int GetKeyByChildNode(Node* childNode, Node* node);
-    
+
     void PrintTreeByBfs();
     
     bool debug = false;
