@@ -1,13 +1,13 @@
-#include "BPlusTree.hpp"
+#include "tree.hpp"
 #include <cstdio>
 #include <cassert>
 
-BPlusTree::BPlusTree(int M){
+tree::tree(int M){
     this->M = M;
     root = new Node(M, true);
 }
 
-Node* BPlusTree::FindLeaf(int key, Node* current){
+Node* tree::FindLeaf(int key, Node* current){
     if(current->isLeaf){
         return current;
     }
@@ -28,12 +28,12 @@ Node* BPlusTree::FindLeaf(int key, Node* current){
     }
 }
 
-void BPlusTree::Insert(int key, Record* value){
+void tree::Insert(int key, Record* value){
     Node* leaf = FindLeaf(key, root);
     InsertRecord(key, value, leaf);
 }
 
-Record* BPlusTree::FindRecord(int key){
+Record* tree::FindRecord(int key){
     Node* leaf = FindLeaf(key, root);
     Record* result = nullptr;
     if(leaf){
@@ -47,7 +47,7 @@ Record* BPlusTree::FindRecord(int key){
     return result;
 }
 
-void BPlusTree::InsertRecord(int key, Record* record, Node* node){
+void tree::InsertRecord(int key, Record* record, Node* node){
     int index = node->size;
     for(int i = 0; i < node->size; i++){
         if(key < node->records[i]->key){
@@ -83,7 +83,7 @@ void BPlusTree::InsertRecord(int key, Record* record, Node* node){
     }
 }
 
-void BPlusTree::InsertNode(int key, Node* child, Node* node){
+void tree::InsertNode(int key, Node* child, Node* node){
     child->parent = node;
     int index = node->size;
     for(int i = 1; i < node->size; i++){
@@ -123,14 +123,14 @@ void BPlusTree::InsertNode(int key, Node* child, Node* node){
     }
 }
 
-void BPlusTree::Delete(int key){
+void tree::Delete(int key){
     Node* leaf = FindLeaf(key, root);
     if(leaf){
         DeleteRecord(key, leaf);
     }
 }
 
-void BPlusTree::DeleteRecord(int key, Node* node){
+void tree::DeleteRecord(int key, Node* node){
     int index = -1;
     for(int i = 0; i < node->size; i++){
         if(node->records[i]->key == key){
@@ -185,7 +185,7 @@ void BPlusTree::DeleteRecord(int key, Node* node){
     }
 }
 
-void BPlusTree::DeleteNode(Node* deleteNode, Node* node){
+void tree::DeleteNode(Node* deleteNode, Node* node){
     int index = -1;
     for(int i = 0; i < node->size; i++){
         if(node->children[i] == deleteNode){
@@ -254,7 +254,7 @@ void BPlusTree::DeleteNode(Node* deleteNode, Node* node){
     }
 }
 
-void BPlusTree::PrintTreeByBfs(){
+void tree::PrintTreeByBfs(){
     Node* queue[1005];
     int head = 0, tail = -1;
     queue[++tail] = root;

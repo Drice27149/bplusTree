@@ -1,19 +1,21 @@
 struct Record{
     int key;
     int value;
+    Record* pre;
+    Record* next;
     Record(int key, int value):
-    key(key), value(value){}
+    key(key), value(value){
+        pre = next = nullptr;
+    }
     ~Record(){}
 };
 
 struct Node {
-    // int* key;
     int KEY;
     int M;
     Node** children;
     Record** records;
     Node* parent;
-    Node* neighbor;
     Node* pre;
     Node* next;
     

@@ -9,5 +9,6 @@ int main(){
     else{
         printf("Succeed\n");
     }
+    system("pause");
     return 0;
 }

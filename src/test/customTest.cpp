@@ -1,9 +1,9 @@
 #include <cstdio>
 #include <cassert>
-#include "BPlusTree.hpp"
+#include "../tree/tree.hpp"
 
 int main(){
-    BPlusTree* bpt = new BPlusTree(3);
+    tree* bpt = new tree(3);
     int keys[] = {3, 18, 14, 30, 32, 36, 15, 16, 12, 40, 45, 38};
     int size = 12;
     for(int i = 0; i < size; i++){

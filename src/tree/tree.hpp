@@ -1,8 +1,8 @@
-#include "Struct.hpp"
+#include "struct.hpp"
 
-class BPlusTree{
+class tree{
 public:
-    BPlusTree(int M);
+    tree(int M);
     Node* FindLeaf(int key, Node* current);
     Record* FindRecord(int key);
     

@@ -132,7 +132,11 @@
 
 * node operation
 
-2020.12.17 8.57~
+2020.12.17 8:57~
 
 * fixing bug about key replacement
+
+2020.12.18 9:00~
+
+*  change array based to link list based
 

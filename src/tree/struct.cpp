@@ -1,13 +1,12 @@
 #include <cstdio>
 #include <cassert>
-#include "Struct.hpp"
+#include "struct.hpp"
 
 Node::Node(int M, bool isLeaf){
     this->KEY = -1;
     this->isLeaf = isLeaf;
     this->size = 0;
     this->parent = nullptr;
-    this->neighbor = nullptr;
     this->pre = nullptr;
     this->next = nullptr;
     this->M = M;
