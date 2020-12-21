@@ -12,6 +12,7 @@ Node* tree::FindLeaf(int key, Node* current){
         return current;
     }
     else{
+        // internal node has aleast two children
         if(key < current->children[1]->KEY){
             return FindLeaf(key, current->children[0]);
         }
@@ -60,6 +61,8 @@ void tree::InsertRecord(int key, Record* record, Node* node){
         node->records[i] = node->records[i-1];
     }
     node->records[index] = record;
+    
+    Record* findRecord = node->firstRecord;
 
     if(node->size == M+1){
         // overflow, split
@@ -69,7 +72,7 @@ void tree::InsertRecord(int key, Record* record, Node* node){
             InsertNode(splitLeaf->KEY, splitLeaf, node->parent);
         }
         else{ 
-            //root overflowed, new root needed
+            // root overflowed, new root needed
             Node* newRoot = new Node(M, false);
             newRoot->size = 2;
             // newRoot->key[0] = splitLeaf->KEY;

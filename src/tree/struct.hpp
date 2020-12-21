@@ -15,6 +15,8 @@ struct Node {
     int M;
     Node** children;
     Record** records;
+    Record* firstRecord; // the first record in the child list, only valid in leaf node
+    Node* firstNode; // the first node in the child list, only valid in internal node
     Node* parent;
     Node* pre;
     Node* next;

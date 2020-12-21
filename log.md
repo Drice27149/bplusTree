@@ -140,3 +140,7 @@
 
 *  change array based to link list based
 
+2020.12.21 10:25~
+
+*  change records to link list based
+

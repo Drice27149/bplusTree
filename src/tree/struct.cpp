@@ -4,12 +4,15 @@
 
 Node::Node(int M, bool isLeaf){
     this->KEY = -1;
+    this->firstNode = nullptr;
+    this->firstRecord = nullptr;
     this->isLeaf = isLeaf;
     this->size = 0;
     this->parent = nullptr;
     this->pre = nullptr;
     this->next = nullptr;
     this->M = M;
+    
     
     // key = nullptr;
     if(isLeaf){
