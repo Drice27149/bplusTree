@@ -49,7 +49,7 @@ Record* tree::FindRecord(int key){
 }
 
 void tree::InsertRecord(int key, Record* record, Node* node){
-    /*int index = node->size;
+    int index = node->size;
     for(int i = 0; i < node->size; i++){
         if(key < node->records[i]->key){
             index = i;
@@ -60,25 +60,9 @@ void tree::InsertRecord(int key, Record* record, Node* node){
     for(int i = node->size-1; i > index; i--){
         node->records[i] = node->records[i-1];
     }
-    node->records[index] = record;*/
+    node->records[index] = record;
     
-    if(node->size==0 || record->key < node->firstRecord->key){
-        // node->firstRecord is changed 
-        node->PushFrontRecord(record);
-    }
-    else{
-        // find the leftmost record that key > record->key, 
-        // if not found, current will be node->firstRecord
-        Record* current = node->firstRecord;
-        for(int i = 0; i < node->size; i++){
-            if(record->key < current->key){
-                break;
-            }
-            current = current->next;
-        }
-        record->InsertBefore(current);
-        node->size++;
-    }
+    Record* findRecord = node->firstRecord;
 
     if(node->size == M+1){
         // overflow, split
@@ -164,7 +148,7 @@ void tree::DeleteRecord(int key, Node* node){
             node->records[i] = node->records[i+1];
         }
         if(node->size < (M+1)/2){ 
-            // underflow
+            //underflow
             if(node->pre && node->pre->size > (M+1)/2){ 
                 // borrow record from left neighbor
                 Record* record = node->pre->PopBackRecord();

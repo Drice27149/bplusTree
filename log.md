@@ -144,3 +144,7 @@
 
 *  change records to link list based
 
+2020.12.22 8:47~
+
+*  use a cyclic linked list here to make implementation easier
+
