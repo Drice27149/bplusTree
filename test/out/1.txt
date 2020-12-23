@@ -1,0 +1,957 @@
+step: 0
+SELF:
+size = 1
+3 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+step: 1
+SELF:
+size = 2
+3 18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+step: 2
+SELF:
+size = 3
+3 14 18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+step: 3
+SELF:
+size = 2
+18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+3 14 
+PARENT:
+18 
+PRE: 
+NULL
+NEXT: 
+18 30 
+
+SELF:
+size = 2
+18 30 
+PARENT:
+18 
+PRE: 
+3 14 
+NEXT: 
+NULL
+
+step: 4
+SELF:
+size = 2
+18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+3 14 
+PARENT:
+18 
+PRE: 
+NULL
+NEXT: 
+18 30 32 
+
+SELF:
+size = 3
+18 30 32 
+PARENT:
+18 
+PRE: 
+3 14 
+NEXT: 
+NULL
+
+step: 5
+SELF:
+size = 3
+18 32 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+3 14 
+PARENT:
+18 32 
+PRE: 
+NULL
+NEXT: 
+18 30 
+
+SELF:
+size = 2
+18 30 
+PARENT:
+18 32 
+PRE: 
+3 14 
+NEXT: 
+32 36 
+
+SELF:
+size = 2
+32 36 
+PARENT:
+18 32 
+PRE: 
+18 30 
+NEXT: 
+NULL
+
+step: 6
+SELF:
+size = 3
+18 32 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 3
+3 14 15 
+PARENT:
+18 32 
+PRE: 
+NULL
+NEXT: 
+18 30 
+
+SELF:
+size = 2
+18 30 
+PARENT:
+18 32 
+PRE: 
+3 14 15 
+NEXT: 
+32 36 
+
+SELF:
+size = 2
+32 36 
+PARENT:
+18 32 
+PRE: 
+18 30 
+NEXT: 
+NULL
+
+step: 7
+SELF:
+size = 2
+18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+15 
+PARENT:
+18 
+PRE: 
+NULL
+NEXT: 
+32 
+
+SELF:
+size = 2
+32 
+PARENT:
+18 
+PRE: 
+15 
+NEXT: 
+NULL
+
+SELF:
+size = 2
+3 14 
+PARENT:
+15 
+PRE: 
+NULL
+NEXT: 
+15 16 
+
+SELF:
+size = 2
+15 16 
+PARENT:
+15 
+PRE: 
+3 14 
+NEXT: 
+NULL
+
+SELF:
+size = 2
+18 30 
+PARENT:
+32 
+PRE: 
+NULL
+NEXT: 
+32 36 
+
+SELF:
+size = 2
+32 36 
+PARENT:
+32 
+PRE: 
+18 30 
+NEXT: 
+NULL
+
+step: 8
+SELF:
+size = 2
+18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+15 
+PARENT:
+18 
+PRE: 
+NULL
+NEXT: 
+32 
+
+SELF:
+size = 2
+32 
+PARENT:
+18 
+PRE: 
+15 
+NEXT: 
+NULL
+
+SELF:
+size = 3
+3 12 14 
+PARENT:
+15 
+PRE: 
+NULL
+NEXT: 
+15 16 
+
+SELF:
+size = 2
+15 16 
+PARENT:
+15 
+PRE: 
+3 12 14 
+NEXT: 
+NULL
+
+SELF:
+size = 2
+18 30 
+PARENT:
+32 
+PRE: 
+NULL
+NEXT: 
+32 36 
+
+SELF:
+size = 2
+32 36 
+PARENT:
+32 
+PRE: 
+18 30 
+NEXT: 
+NULL
+
+step: 9
+SELF:
+size = 2
+18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+15 
+PARENT:
+18 
+PRE: 
+NULL
+NEXT: 
+32 
+
+SELF:
+size = 2
+32 
+PARENT:
+18 
+PRE: 
+15 
+NEXT: 
+NULL
+
+SELF:
+size = 3
+3 12 14 
+PARENT:
+15 
+PRE: 
+NULL
+NEXT: 
+15 16 
+
+SELF:
+size = 2
+15 16 
+PARENT:
+15 
+PRE: 
+3 12 14 
+NEXT: 
+NULL
+
+SELF:
+size = 2
+18 30 
+PARENT:
+32 
+PRE: 
+NULL
+NEXT: 
+32 36 40 
+
+SELF:
+size = 3
+32 36 40 
+PARENT:
+32 
+PRE: 
+18 30 
+NEXT: 
+NULL
+
+step: 10
+SELF:
+size = 2
+18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+15 
+PARENT:
+18 
+PRE: 
+NULL
+NEXT: 
+32 40 
+
+SELF:
+size = 3
+32 40 
+PARENT:
+18 
+PRE: 
+15 
+NEXT: 
+NULL
+
+SELF:
+size = 3
+3 12 14 
+PARENT:
+15 
+PRE: 
+NULL
+NEXT: 
+15 16 
+
+SELF:
+size = 2
+15 16 
+PARENT:
+15 
+PRE: 
+3 12 14 
+NEXT: 
+NULL
+
+SELF:
+size = 2
+18 30 
+PARENT:
+32 40 
+PRE: 
+NULL
+NEXT: 
+32 36 
+
+SELF:
+size = 2
+32 36 
+PARENT:
+32 40 
+PRE: 
+18 30 
+NEXT: 
+40 45 
+
+SELF:
+size = 2
+40 45 
+PARENT:
+32 40 
+PRE: 
+32 36 
+NEXT: 
+NULL
+
+step: 11
+SELF:
+size = 2
+18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+15 
+PARENT:
+18 
+PRE: 
+NULL
+NEXT: 
+32 40 
+
+SELF:
+size = 3
+32 40 
+PARENT:
+18 
+PRE: 
+15 
+NEXT: 
+NULL
+
+SELF:
+size = 3
+3 12 14 
+PARENT:
+15 
+PRE: 
+NULL
+NEXT: 
+15 16 
+
+SELF:
+size = 2
+15 16 
+PARENT:
+15 
+PRE: 
+3 12 14 
+NEXT: 
+NULL
+
+SELF:
+size = 2
+18 30 
+PARENT:
+32 40 
+PRE: 
+NULL
+NEXT: 
+32 36 38 
+
+SELF:
+size = 3
+32 36 38 
+PARENT:
+32 40 
+PRE: 
+18 30 
+NEXT: 
+40 45 
+
+SELF:
+size = 2
+40 45 
+PARENT:
+32 40 
+PRE: 
+32 36 38 
+NEXT: 
+NULL
+
+step: 12
+SELF:
+size = 2
+18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+15 
+PARENT:
+18 
+PRE: 
+NULL
+NEXT: 
+32 40 
+
+SELF:
+size = 3
+32 40 
+PARENT:
+18 
+PRE: 
+15 
+NEXT: 
+NULL
+
+SELF:
+size = 3
+3 12 14 
+PARENT:
+15 
+PRE: 
+NULL
+NEXT: 
+15 16 
+
+SELF:
+size = 2
+15 16 
+PARENT:
+15 
+PRE: 
+3 12 14 
+NEXT: 
+NULL
+
+SELF:
+size = 2
+18 30 
+PARENT:
+32 40 
+PRE: 
+NULL
+NEXT: 
+32 36 38 
+
+SELF:
+size = 3
+32 36 38 
+PARENT:
+32 40 
+PRE: 
+18 30 
+NEXT: 
+40 45 
+
+SELF:
+size = 2
+40 45 
+PARENT:
+32 40 
+PRE: 
+32 36 38 
+NEXT: 
+NULL
+
+step: 13
+SELF:
+size = 2
+18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+15 
+PARENT:
+18 
+PRE: 
+NULL
+NEXT: 
+32 40 
+
+SELF:
+size = 3
+32 40 
+PARENT:
+18 
+PRE: 
+15 
+NEXT: 
+NULL
+
+SELF:
+size = 3
+3 12 14 
+PARENT:
+15 
+PRE: 
+NULL
+NEXT: 
+15 16 
+
+SELF:
+size = 2
+15 16 
+PARENT:
+15 
+PRE: 
+3 12 14 
+NEXT: 
+NULL
+
+SELF:
+size = 2
+18 30 
+PARENT:
+32 40 
+PRE: 
+NULL
+NEXT: 
+32 36 38 
+
+SELF:
+size = 3
+32 36 38 
+PARENT:
+32 40 
+PRE: 
+18 30 
+NEXT: 
+40 45 
+
+SELF:
+size = 2
+40 45 
+PARENT:
+32 40 
+PRE: 
+32 36 38 
+NEXT: 
+NULL
+
+step: 14
+SELF:
+size = 2
+18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+15 
+PARENT:
+18 
+PRE: 
+NULL
+NEXT: 
+32 40 
+
+SELF:
+size = 3
+32 40 
+PARENT:
+18 
+PRE: 
+15 
+NEXT: 
+NULL
+
+SELF:
+size = 3
+3 12 14 
+PARENT:
+15 
+PRE: 
+NULL
+NEXT: 
+15 16 
+
+SELF:
+size = 2
+15 16 
+PARENT:
+15 
+PRE: 
+3 12 14 
+NEXT: 
+NULL
+
+SELF:
+size = 2
+18 30 
+PARENT:
+32 40 
+PRE: 
+NULL
+NEXT: 
+32 36 38 
+
+SELF:
+size = 3
+32 36 38 
+PARENT:
+32 40 
+PRE: 
+18 30 
+NEXT: 
+40 45 
+
+SELF:
+size = 2
+40 45 
+PARENT:
+32 40 
+PRE: 
+32 36 38 
+NEXT: 
+NULL
+
+step: 15
+SELF:
+size = 2
+18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+15 
+PARENT:
+18 
+PRE: 
+NULL
+NEXT: 
+32 40 
+
+SELF:
+size = 3
+32 40 
+PARENT:
+18 
+PRE: 
+15 
+NEXT: 
+NULL
+
+SELF:
+size = 3
+3 12 14 
+PARENT:
+15 
+PRE: 
+NULL
+NEXT: 
+15 16 
+
+SELF:
+size = 2
+15 16 
+PARENT:
+15 
+PRE: 
+3 12 14 
+NEXT: 
+NULL
+
+SELF:
+size = 2
+18 30 
+PARENT:
+32 40 
+PRE: 
+NULL
+NEXT: 
+32 36 38 
+
+SELF:
+size = 3
+32 36 38 
+PARENT:
+32 40 
+PRE: 
+18 30 
+NEXT: 
+40 45 
+
+SELF:
+size = 2
+40 45 
+PARENT:
+32 40 
+PRE: 
+32 36 38 
+NEXT: 
+NULL
+
+step: 16
+SELF:
+size = 2
+18 
+PARENT:
+NULL
+PRE: 
+NULL
+NEXT: 
+NULL
+
+SELF:
+size = 2
+15 
+PARENT:
+18 
+PRE: 
+NULL
+NEXT: 
+32 40 
+
+SELF:
+size = 3
+32 40 
+PARENT:
+18 
+PRE: 
+15 
+NEXT: 
+NULL
+
+SELF:
+size = 3
+3 12 14 
+PARENT:
+15 
+PRE: 
+NULL
+NEXT: 
+15 16 
+
+SELF:
+size = 2
+15 16 
+PARENT:
+15 
+PRE: 
+3 12 14 
+NEXT: 
+NULL
+
+SELF:
+size = 2
+18 30 
+PARENT:
+32 40 
+PRE: 
+NULL
+NEXT: 
+32 36 38 
+
+SELF:
+size = 3
+32 36 38 
+PARENT:
+32 40 
+PRE: 
+18 30 
+NEXT: 
+40 45 
+
+SELF:
+size = 2
+40 45 
+PARENT:
+32 40 
+PRE: 
+32 36 38 
+NEXT: 
+NULL
+

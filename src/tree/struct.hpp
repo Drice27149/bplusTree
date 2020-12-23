@@ -3,20 +3,12 @@ struct Record{
     int value;
     Record* pre;
     Record* next;
-    Record(int key, int value):
-    key(key), value(value){
-        pre = next = nullptr;
-    }
     
+    Record(int key, int value);
     // insert self before nextRecord
-    void InsertBefore(Record* nextRecord){
-        next = nextRecord;
-        pre = nextRecord->pre;
-        next->pre = this;
-        pre->next = this;
-    }
-    
-    ~Record(){}
+    void InsertBefore(Record* nextRecord);
+    // delete record from record list, neighbor record's pre & next will be reset
+    void DeleteFrom();
 };
 
 struct Node {

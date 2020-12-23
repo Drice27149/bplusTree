@@ -2,6 +2,24 @@
 #include <cassert>
 #include "struct.hpp"
 
+Record::Record(int key, int value){
+    this->key = key;
+    this->value = value;
+    this->pre = this->next = nullptr;
+}
+
+void Record::InsertBefore(Record* nextRecord) {
+    next = nextRecord;
+    pre = nextRecord->pre;
+    next->pre = this;
+    pre->next = this;
+}
+    
+void Record::DeleteFrom() {
+    pre->next = next;
+    next->pre = pre;
+}
+
 Node::Node(int M, bool isLeaf){
     this->KEY = -1;
     this->firstNode = nullptr;
@@ -12,7 +30,6 @@ Node::Node(int M, bool isLeaf){
     this->pre = nullptr;
     this->next = nullptr;
     this->M = M;
-    
     
     // key = nullptr;
     if(isLeaf){
@@ -33,18 +50,18 @@ Node::~Node(){
 }
 
 Record* Node::PopFrontRecord(){
-    Record* record = records[0];
+    Record* first = firstRecord;
+    firstRecord = first->next;
+    first->DeleteFrom();
     size--;
-    for(int i = 0; i < size; i++){
-        records[i] = records[i+1];
-    }
-
-    return record;
+    return first;
 }
 
 Record* Node::PopBackRecord(){
-    size--;
-    return records[size];
+    Record* last = firstRecord->pre;
+    last->DeleteFrom();
+    size--; 
+    return last;
 }
 
 void Node::PushBackRecord(Record* record){
@@ -146,22 +163,6 @@ void Node::ResetChildrenNeighbor(){
         }
     }
 }
-/*
-Node* Node::SplitLeaf(){
-    assert(size == M+1);
-    // new leaf's key is given on split
-    
-    Node* newLeaf = new Node(M, true);
-    size = (M+1)/2;
-    for(int i = size; i < M+1; i++){
-        if(i==size){
-            newLeaf->KEY = records[i]->key;
-        }
-        newLeaf->PushBackRecord(records[i]);
-    }
-    return newLeaf;
-}
-*/
 
 Node* Node::SplitLeaf(){
     assert(size == M+1);
@@ -229,8 +230,10 @@ void Node::PrintNode(){
 
 void Node::SimplePrint(){
     if(isLeaf){
+        Record* current = firstRecord;
         for(int i = 0; i < size; i++){
-            printf("%d ",records[i]->key);
+            printf("%d ",current->key);
+            current = current->next;
         }
     }
     else{

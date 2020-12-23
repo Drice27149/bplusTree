@@ -2,8 +2,9 @@
 #include <cstdlib>
 
 int main(){
-    system("bfRunner.exe > output/out.txt");
-    if(system("fc output\\out.txt output\\expect.txt")){
+    system("runner.exe < in/in.txt > out/1.txt");
+    system("bfRunner.exe < in/in.txt > out/2.txt");
+    if(system("fc out\\1.txt out\\2.txt")){
         printf("Failed\n");
     }
     else{

@@ -1,6 +1,6 @@
-#include "tree.hpp"
 #include <cstdio>
 #include <cassert>
+#include "tree.hpp"
 
 tree::tree(int M){
     this->M = M;
@@ -150,19 +150,21 @@ void tree::Delete(int key){
 }
 
 void tree::DeleteRecord(int key, Node* node){
-    int index = -1;
+    Record* current = node->firstRecord;
     for(int i = 0; i < node->size; i++){
-        if(node->records[i]->key == key){
-            index = i;
+        if(current->key == key){
             break;
         }
     }
-    if(index != -1){
-        delete node->records[index];
-        node->size--;
-        for(int i = index; i < node->size; i++){
-            node->records[i] = node->records[i+1];
+    
+    if(node->size!=0 && current->key == key){
+        if(current == node->firstRecord) {
+            node->firstRecord = current->next;
         }
+        current->DeleteFrom();
+        node->size--;
+        delete current;
+   
         if(node->size < (M+1)/2){ 
             // underflow
             if(node->pre && node->pre->size > (M+1)/2){ 

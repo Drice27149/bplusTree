@@ -1,4 +1,4 @@
-Test: test/judge test/customTest
+Test: test/judge test/runner test/bfRunner
 
 test/judge: src/test/judge.cpp
 	g++ $< -o $@
