@@ -1,6 +1,6 @@
+#include "tree.hpp"
 #include <cstdio>
 #include <cassert>
-#include "tree.hpp"
 
 tree::tree(int M){
     this->M = M;
@@ -49,7 +49,7 @@ Record* tree::FindRecord(int key){
 }
 
 void tree::InsertRecord(int key, Record* record, Node* node){
-    /*int index = node->size;
+    int index = node->size;
     for(int i = 0; i < node->size; i++){
         if(key < node->records[i]->key){
             index = i;
@@ -60,24 +60,12 @@ void tree::InsertRecord(int key, Record* record, Node* node){
     for(int i = node->size-1; i > index; i--){
         node->records[i] = node->records[i-1];
     }
-    node->records[index] = record;*/
-    
-    if(node->size==0 || record->key < node->firstRecord->key){
-        // node->firstRecord is changed 
-        node->PushFrontRecord(record);
+    node->records[index] = record;
+    if(index > 0){
+        record->InsertAfter(node->records[index-1]);
     }
-    else{
-        // find the leftmost record that key > record->key, 
-        // if not found, current will be node->firstRecord
-        Record* current = node->firstRecord;
-        for(int i = 0; i < node->size; i++){
-            if(record->key < current->key){
-                break;
-            }
-            current = current->next;
-        }
-        record->InsertBefore(current);
-        node->size++;
+    else if(index != node->size-1){
+        record->InsertBefore(node->records[index+1]);
     }
 
     if(node->size == M+1){
@@ -150,23 +138,23 @@ void tree::Delete(int key){
 }
 
 void tree::DeleteRecord(int key, Node* node){
-    Record* current = node->firstRecord;
+    int index = -1;
     for(int i = 0; i < node->size; i++){
-        if(current->key == key){
+        if(node->records[i]->key == key){
+            index = i;
             break;
         }
     }
     
-    if(node->size!=0 && current->key == key){
-        if(current == node->firstRecord) {
-            node->firstRecord = current->next;
-        }
-        current->DeleteFrom();
+    if(index != -1){
+        node->records[index]->DeleteFromList();
+        delete node->records[index];
         node->size--;
-        delete current;
-   
+        for(int i = index; i < node->size; i++){
+            node->records[i] = node->records[i+1];
+        }
         if(node->size < (M+1)/2){ 
-            // underflow
+            //underflow
             if(node->pre && node->pre->size > (M+1)/2){ 
                 // borrow record from left neighbor
                 Record* record = node->pre->PopBackRecord();

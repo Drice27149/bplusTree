@@ -2,24 +2,6 @@
 #include <cassert>
 #include "struct.hpp"
 
-Record::Record(int key, int value){
-    this->key = key;
-    this->value = value;
-    this->pre = this->next = nullptr;
-}
-
-void Record::InsertBefore(Record* nextRecord) {
-    next = nextRecord;
-    pre = nextRecord->pre;
-    next->pre = this;
-    pre->next = this;
-}
-    
-void Record::DeleteFrom() {
-    pre->next = next;
-    next->pre = pre;
-}
-
 Node::Node(int M, bool isLeaf){
     this->KEY = -1;
     this->firstNode = nullptr;
@@ -50,50 +32,30 @@ Node::~Node(){
 }
 
 Record* Node::PopFrontRecord(){
-    Record* first = firstRecord;
-    firstRecord = first->next;
-    first->DeleteFrom();
+    Record* record = records[0];
     size--;
-    return first;
+    for(int i = 0; i < size; i++){
+        records[i] = records[i+1];
+    }
+
+    return record;
 }
 
 Record* Node::PopBackRecord(){
-    Record* last = firstRecord->pre;
-    last->DeleteFrom();
-    size--; 
-    return last;
+    size--;
+    return records[size];
 }
 
 void Node::PushBackRecord(Record* record){
-    /*records[size++] = record;*/
-    
-    // pushback and pushfront is almost the same because this is a cyclic list
-    if(size!=0){
-        record->InsertBefore(firstRecord);
-    }
-    else{
-        record->next = record->pre = record;
-        firstRecord = record;
-    }
-    size++;
+    records[size++] = record;
 }
 
 void Node::PushFrontRecord(Record* record){
-    /* size++;
+    size++;
     for(int i = size-1; i > 0; i--){
         records[i] = records[i-1];
     }
     records[0] = record;
-    */
-    
-    if(size!=0){
-        record->InsertBefore(firstRecord);
-    }
-    else{
-        record->next = record->pre = record;
-    }
-    firstRecord = record;
-    size++;
 }
     
 Node* Node::PopFrontNode(int& popKey){
@@ -168,23 +130,14 @@ Node* Node::SplitLeaf(){
     assert(size == M+1);
     // new leaf's key is given on split
     
-    size = (M+1)/2;
-    // (first ... leftMid), (mid, ... last)
-    Record* mid = firstRecord;
-    for(int i = 0; i < size; i++) mid = mid->next;
-    Record* leftMid = mid->pre;
-    Record* last = firstRecord->pre;
-    // close the left cycle
-    firstRecord->pre = leftMid;
-    leftMid->next = firstRecord;
-    // close the right cycle
-    mid->pre = last;
-    last->next = mid;
-    // create new leaf
     Node* newLeaf = new Node(M, true);
-    newLeaf->KEY = mid->key;
-    newLeaf->firstRecord = mid;
-    newLeaf->size = (M+1) - size;
+    size = (M+1)/2;
+    for(int i = size; i < M+1; i++){
+        if(i==size){
+            newLeaf->KEY = records[i]->key;
+        }
+        newLeaf->PushBackRecord(records[i]);
+    }
     return newLeaf;
 }
 
@@ -230,10 +183,8 @@ void Node::PrintNode(){
 
 void Node::SimplePrint(){
     if(isLeaf){
-        Record* current = firstRecord;
         for(int i = 0; i < size; i++){
-            printf("%d ",current->key);
-            current = current->next;
+            printf("%d ",records[i]->key);
         }
     }
     else{
